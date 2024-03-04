@@ -3,7 +3,8 @@ import os
 
 CHAR_TO_TOKEN = 4.3 # approx based on sampling 92362 / 21340
 MAX_TOKENS = 16385 #for chat gpt 3.5 turbo
-SAFETY_FACTOR = 0.8 #have 20% safety factor on calculation
+SAFETY_FACTOR = 0.9 #have 20% safety factor on calculation
+OVERLAP_FACTOR = 0.9
 SPLIT_SIZE = round(CHAR_TO_TOKEN * MAX_TOKENS * SAFETY_FACTOR)
 MODEL = "gpt-3.5-turbo"
 
@@ -16,14 +17,19 @@ class Summarizer:
     ''' Class for summarizing podcast transcripts'''
     def __init__(self, transcript: str):
         self.transcript: str = transcript
-        self.transcript_chunks: list[str] = ['']
+        self.transcript_chunks: list[str] = []
+        self.create_chunks()
         self.summary_chunks: list[str] = []
         self.final_summary: str|None = None
-        for section in transcript.split(' '):
-            if len(section)+len(self.transcript_chunks[-1]) < SPLIT_SIZE:
-                self.transcript_chunks[-1] += section + ' '
-            else:
-                self.transcript_chunks.append(section+ ' ')        
+             
+    def create_chunks(self):
+        i = 0
+        while i < len(self.transcript):
+            section = self.transcript[i:i+SPLIT_SIZE]
+            self.transcript_chunks.append(section)
+            i += round(SPLIT_SIZE*OVERLAP_FACTOR)
+         
+
 
     def summarize(self):
         if self.final_summary is not None:
@@ -40,9 +46,9 @@ class Summarizer:
              + '\n'.join(self.summary_chunks)}
         ]
         )
-        print('Final summary:\n')
+        print(f'''Final summary:\n''')
         self.final_summary = completion.choices[0].message.content
-        print('self.final_summary')
+        print(f'''{self.final_summary}''')
         return self.final_summary
     
     def summarize_chunks(self):        
@@ -56,7 +62,7 @@ class Summarizer:
         completion = client.chat.completions.create(
         model=MODEL,
         messages=[
-            {"role": "system", "content": "You are an AI designed to summarize podcast transcripts. When raw podcast transcripts are uploaded you will respond with a detailed 10 to 15 bullet point summary that preserves details of what was said. If something sounds like it might be related to an ad, prepend #ad to that bullet."},
+            {"role": "system", "content": "You are an AI designed to summarize podcast transcripts with relevant extracts. When raw podcast transcripts are uploaded you will respond with a detailed 10 to 15 bullet point summary that preserves details of what was said, try to be more extractive instead of abstractive. If something sounds like it might be related to an ad, prepend #ad to that bullet."},
             {"role": "user", "content": 'Here is the podcast transcript:\n' \
              + chunk}
         ]
