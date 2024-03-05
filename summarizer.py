@@ -2,15 +2,17 @@ from llm import LLM
 
 CHAR_TO_TOKEN:float = 4.3  # approx based on sampling 92362 / 21340
 # MAX_TOKENS:int = 16385  # for chat gpt 3.5 turbo
-MAX_TOKENS:int = 1000  # for mistral ollama
+MAX_TOKENS:int = 2000  # for mistral ollama based on testing
 SAFETY_FACTOR:float = 0.9  # have 20% safety factor on calculation
 OVERLAP_FACTOR:float = 0.9
 SPLIT_SIZE:int = round(CHAR_TO_TOKEN * MAX_TOKENS * SAFETY_FACTOR)
 
 
-SUMMARIZE_PROMPT:str = '''You are an AI designed to summarize podcast transcript summaries. When a list of bullet points summarizing a podcast is provided, please organize it into topics, remove any duplicate bullets, but preserve all the information from the summaries to output a clean new final summary.'''
+# SUMMARIZE_PROMPT:str = '''You are an AI designed to summarize podcast transcript summaries. When a list of bullet points summarizing a podcast is provided, please organize it into topics, remove any duplicate bullets, but preserve all the information from the summaries to output a clean new final summary.'''
 
-BULLET_PROMPT:str = '''You are an AI designed to summarize podcast transcripts with relevant extracts. When raw podcast transcripts are uploaded you will respond with a detailed 10 to 15 bullet point summary that preserves details of what was said, try to be more extractive instead of abstractive. If something sounds like it might be related to an ad, prepend #ad to that bullet.'''
+SUMMARIZE_PROMPT:str = '''Turn this list of bullet points into an article with section headings grouped by theme in markdown:'''
+
+BULLET_PROMPT:str = '''You are an AI designed to summarize podcast transcripts with relevant extracts. When raw podcast transcripts are uploaded you will respond with a detailed 10 bullet point summary that preserves details of what was said, try to be more extractive instead of abstractive.'''
 
 
 class Summarizer:
@@ -37,20 +39,21 @@ class Summarizer:
 
         print('Generating summary...')
         self.summarize_chunks()
+        print(f'''Creating final summary:\n\n\n\n\n''')
 
         completion = self.llm.completion(
             SUMMARIZE_PROMPT,
             'Here is the podcast transcript summary bullet points:\n'
                  + '\n'.join(self.summary_chunks)
             )
-        print(f'''Final summary:\n''')
+        
         self.final_summary = completion
         print(f'''{self.final_summary}''')
         return self.final_summary
 
     def summarize_chunks(self):
         for i,chunk in enumerate(self.transcript_chunks):
-            print(f'''Summarizing chunk {i} of {len(self.transcript_chunks)}...''')
+            print(f'''Summarizing chunk {i+1} of {len(self.transcript_chunks)}...''')
             self.summary_chunks.append(
                 self.summarize_chunk(chunk)
             )
