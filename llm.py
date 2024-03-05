@@ -4,6 +4,7 @@ import os
 
 OPENAI_MODEL = 'gpt-3.5-turbo'
 OLLAMA_MODEL = 'mistral:latest'
+# OLLAMA_MODEL = 'gemma:2b'
 
 client = OpenAI(
     api_key=os.environ.get("OPEN_API_KEY"),
@@ -13,6 +14,7 @@ client = OpenAI(
 class LLM:
     '''Class for getting LLM completions with different services'''
     def __init__(self, service:str='openai'):
+        print(f'''Using {service} for LLM''')
         self.service = service
 
     def completion(self, sys_prompt:str, user_prompt:str) -> str:

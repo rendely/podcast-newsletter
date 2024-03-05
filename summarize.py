@@ -1,8 +1,8 @@
 from llm import LLM
 
 CHAR_TO_TOKEN:float = 4.3  # approx based on sampling 92362 / 21340
-MAX_TOKENS:int = 16385  # for chat gpt 3.5 turbo
-MAX_TOKENS:int = 5000  # for mistral ollama
+# MAX_TOKENS:int = 16385  # for chat gpt 3.5 turbo
+MAX_TOKENS:int = 1000  # for mistral ollama
 SAFETY_FACTOR:float = 0.9  # have 20% safety factor on calculation
 OVERLAP_FACTOR:float = 0.9
 SPLIT_SIZE:int = round(CHAR_TO_TOKEN * MAX_TOKENS * SAFETY_FACTOR)
