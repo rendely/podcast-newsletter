@@ -3,8 +3,8 @@ import ollama
 import os
 
 OPENAI_MODEL = 'gpt-3.5-turbo'
-OLLAMA_MODEL = 'mistral:latest'
-# OLLAMA_MODEL = 'gemma:2b'
+# OLLAMA_MODEL = 'mistral:latest'
+OLLAMA_MODEL = 'gemma:2b'
 
 client = OpenAI(
     api_key=os.environ.get("OPEN_API_KEY"),

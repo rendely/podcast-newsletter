@@ -49,8 +49,8 @@ class Summarizer:
         return self.final_summary
 
     def summarize_chunks(self):
-        for chunk in self.transcript_chunks:
-            print(f'''Summarizing chunk...''')
+        for i,chunk in enumerate(self.transcript_chunks):
+            print(f'''Summarizing chunk {i} of {len(self.transcript_chunks)}...''')
             self.summary_chunks.append(
                 self.summarize_chunk(chunk)
             )
