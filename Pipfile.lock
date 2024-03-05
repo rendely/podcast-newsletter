@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "08a24fd42750c07ce175573fd4288c9b303d93c89d21fa31a8b12ee08732aa2b"
+            "sha256": "ad3e1f1ab8b2273381589d178198d598f84cfe2a7583f57a69c4549b89c273a9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -67,11 +67,11 @@
         },
         "httpx": {
             "hashes": [
-                "sha256:71d5465162c13681bff01ad59b2cc68dd838ea1f10e51574bac27103f00c91a5",
-                "sha256:a0cb88a46f32dc874e04ee956e4c2764aba2aa228f650b06788ba6bda2962ab5"
+                "sha256:8b8fcaa0c8ea7b05edd69a094e63a2094c4efcb48129fb757361bc423c0ad9e8",
+                "sha256:a05d3d052d9b2dfce0e3896636467f8a5342fb2b902c819428e1ac65413ca118"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==0.27.0"
+            "version": "==0.25.2"
         },
         "idna": {
             "hashes": [
@@ -80,6 +80,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==3.6"
+        },
+        "ollama": {
+            "hashes": [
+                "sha256:7d853ceaadaed6e0425faff46b44192d02f48e92ab4c4cfd422ee4de09d32350",
+                "sha256:c471286a2bbe9dc9986428831c67a3a6c27e7fb5e3df55f41c1e28b8d00a80a7"
+            ],
+            "index": "pypi",
+            "version": "==0.1.7"
         },
         "openai": {
             "hashes": [

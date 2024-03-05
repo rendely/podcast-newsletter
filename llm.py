@@ -1,7 +1,9 @@
 from openai import OpenAI
+import ollama
 import os
 
-MODEL = "gpt-3.5-turbo"
+OPENAI_MODEL = 'gpt-3.5-turbo'
+OLLAMA_MODEL = 'mistral:latest'
 
 client = OpenAI(
     api_key=os.environ.get("OPEN_API_KEY"),
@@ -13,13 +15,23 @@ class LLM:
     def __init__(self, service:str='openai'):
         self.service = service
 
-    def completion(self, sys_prompt, user_prompt):
+    def completion(self, sys_prompt:str, user_prompt:str) -> str:
+        if self.service == 'ollama':
+            completion = ollama.chat(
+                model=OLLAMA_MODEL, 
+                messages=[
+                    {'role': 'system', "content": sys_prompt},
+                    {'role': 'user', "content": user_prompt},
+                    ]
+                )
+            return completion['message']['content']
+            
         if self.service == 'openai':
             completion = client.chat.completions.create(
-                    model=MODEL,
-                    messages=[
-                        {"role": "system", "content": sys_prompt},
-                        {"role": "user", "content": user_prompt}
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": sys_prompt},
+                    {"role": "user", "content": user_prompt}
                     ]
                 )
             print(completion.usage)
