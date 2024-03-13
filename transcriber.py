@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 class Transcriber:
     '''Class for transcribing audio'''
@@ -8,11 +9,10 @@ class Transcriber:
         self.transcribe()
         self.run_whisper_cmd:str = f'whisper-cpp/main -f whisper-cpp/data/{file_name}.wav -m whisper-cpp/models/ggml-tiny.en.bin -of whisper-cpp/data/{file_name} -otxt'
     
-    
     def transcribe(self):
-        if self.file_name in os.listdir():
+        if f'{self.file_name}.txt' in os.listdir():
             print('Already transcribed')
-            return 
+            return
     
         subprocess.run(self.run_whisper_cmd.split(' '))
         with open(f'whisper-cpp/data/{self.file_name}.txt', 'r') as f:

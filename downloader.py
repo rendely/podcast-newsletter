@@ -4,8 +4,8 @@ import os
 class Downloader:
     '''Downloads audio files'''
     def __init__(self, url, file_name):
-        self.url = url
-        self.file_name = file_name 
+        self.url:str = url
+        self.file_name:str = f'{file_name}.mp3'
     
     def download(self):
         if self.file_name in os.listdir():
