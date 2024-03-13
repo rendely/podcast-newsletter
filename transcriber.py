@@ -10,11 +10,10 @@ class Transcriber:
     
     
     def transcribe(self):
-        try:
-            with open(f'whisper-cpp/data/{self.file_name}.txt', 'r') as f:
-                self.transcript = f.read()
-
-        except FileNotFoundError:    
-            subprocess.run(self.run_whisper_cmd.split(' '))
-            with open(f'whisper-cpp/data/{self.file_name}.txt', 'r') as f:
-                self.transcript = f.read()
+        if self.file_name in os.listdir():
+            print('Already transcribed')
+            return 
+    
+        subprocess.run(self.run_whisper_cmd.split(' '))
+        with open(f'whisper-cpp/data/{self.file_name}.txt', 'r') as f:
+            self.transcript = f.read()
