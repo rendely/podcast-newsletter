@@ -1,3 +1,4 @@
+from downloader import Downloader
 from summarizer import Summarizer
 from transcriber import Transcriber
 
