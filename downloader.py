@@ -1,27 +1,38 @@
 import requests
 import os
+import subprocess
+import hashlib
 
 class Downloader:
     '''Downloads audio files'''
     def __init__(self, url):
         self.url:str = url
-        self.file_name:str = str(hash(url))
+        self.file_name:str = self.hash_string(url)
+        self.file_name_mp3:str = f'{self.file_name}.mp3'
+        self.file_name_wav:str = f'{self.file_name}.wav'
+        self.run_wave_cmd:str = f'ffmpeg -i {self.file_name_mp3} -ar 16000 -ac 1 -c:a pcm_s16le {self.file_name_wav}'
     
     def download(self):
-        if f'{self.file_name}.mp3' in os.listdir():
+        if self.file_name_mp3 in os.listdir():
             print('File already downloaded')
             return self.file_name
 
-        print(f'Starting download to {self.file_name}.mp3')
+        print(f'Starting download to {self.file_name_mp3}')
         response = requests.get(self.url)
         response.raise_for_status()
-        with open(f'{self.file_name}.mp3', "wb") as file:
+        with open(self.file_name_mp3, "wb") as file:
             file.write(response.content)
         print('Complete')
+        return self.file_name
     
     def convert_to_wav(self):
-        #TODO
-        pass
+        subprocess.run(self.run_wave_cmd.split(' '))        
+    
+    def hash_string(string):
+        encoded_string = string.encode('utf-8')
+        hasher = hashlib.sha256()
+        hasher.update(encoded_string)
+        return hasher.hexdigest()
     
     def __repr__(self):
         return f'<Downloader file_name={self.file_name}>'
