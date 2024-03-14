@@ -11,6 +11,8 @@ class Downloader:
         self.file_name_mp3:str = f'{self.file_name}.mp3'
         self.file_name_wav:str = f'{self.file_name}.wav'
         self.run_wave_cmd:str = f'ffmpeg -i {self.file_name_mp3} -ar 16000 -ac 1 -c:a pcm_s16le {self.file_name_wav}'
+        self.download()
+        self.convert_to_wav()
     
     def download(self):
         if self.file_name_mp3 in os.listdir():
