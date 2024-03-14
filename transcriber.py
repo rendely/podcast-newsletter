@@ -5,9 +5,9 @@ class Transcriber:
     '''Class for transcribing audio'''
     def __init__(self, file_name:str):
         self.file_name:str = file_name
-        self.transcript:str|None = None
-        self.transcribe()
+        self.transcript:str|None = None        
         self.run_whisper_cmd:str = f'whisper-cpp/main -f whisper-cpp/data/{file_name}.wav -m whisper-cpp/models/ggml-tiny.en.bin -of whisper-cpp/data/{file_name} -otxt'
+        self.transcribe()
     
     def transcribe(self):
         if f'{self.file_name}.txt' in os.listdir():
