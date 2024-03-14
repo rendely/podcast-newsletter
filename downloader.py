@@ -26,9 +26,13 @@ class Downloader:
         return self.file_name
     
     def convert_to_wav(self):
+        if self.file_name_wav in os.listdir():
+            print('Already converted to wav')
+            return
+        
         subprocess.run(self.run_wave_cmd.split(' '))        
     
-    def hash_string(string):
+    def hash_string(self, string):
         encoded_string = string.encode('utf-8')
         hasher = hashlib.sha256()
         hasher.update(encoded_string)

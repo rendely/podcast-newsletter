@@ -7,13 +7,10 @@ class Transcriber:
         self.file_name:str = file_name
         self.transcript:str|None = None        
         self.run_whisper_cmd:str = f'whisper-cpp/main -f {file_name}.wav -m whisper-cpp/models/ggml-tiny.en.bin -of {file_name} -otxt'
-        self.transcribe()
     
-    def transcribe(self):
-        if f'{self.file_name}.txt' in os.listdir():
-            print('Already transcribed')
-            return
-    
-        subprocess.run(self.run_whisper_cmd.split(' '))
-        with open(f'whisper-cpp/data/{self.file_name}.txt', 'r') as f:
+    def transcribe(self):        
+        if f'{self.file_name}.txt' not in os.listdir():
+            subprocess.run(self.run_whisper_cmd.split(' '))
+        
+        with open(f'{self.file_name}.txt', 'r') as f:
             self.transcript = f.read()
