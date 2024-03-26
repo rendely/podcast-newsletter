@@ -11,12 +11,15 @@ class Downloader:
         self.file_name_mp3:str = f'{self.file_name}.mp3'
         self.file_name_wav:str = f'{self.file_name}.wav'
         self.run_wave_cmd:str = f'ffmpeg -i {self.file_name_mp3} -ar 16000 -ac 1 -c:a pcm_s16le {self.file_name_wav}'
-        self.download()
-        self.convert_to_wav()
+        self.download()        
     
     def download(self):
         if self.file_name_mp3 in os.listdir():
             print('File already downloaded')
+            return self.file_name
+
+        if f'{self.file_name}.txt' in os.listdir():
+            print('File already transcribed')
             return self.file_name
 
         print(f'Starting download to {self.file_name_mp3}')
@@ -25,12 +28,12 @@ class Downloader:
         with open(self.file_name_mp3, "wb") as file:
             file.write(response.content)
         print('Complete')
+        self.convert_to_wav()
         return self.file_name
     
     def convert_to_wav(self):
         if self.file_name_wav in os.listdir():
             print('Already converted to wav')
-            return
         
         subprocess.run(self.run_wave_cmd.split(' '))        
     
