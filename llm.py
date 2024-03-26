@@ -38,5 +38,7 @@ class LLM:
             print(completion.usage)
             return completion.choices[0].message.content
     
+        raise ValueError('Must select a supported service')
+    
     def __repr__(self):
         return f'LLM<service={self.service}>'

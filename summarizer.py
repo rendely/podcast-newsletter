@@ -51,10 +51,11 @@ class Summarizer:
             )
         
         self.final_summary = completion
-        with open(f'{self.file_name}-final-summary.txt') as f:
-            f.write(self.final_summary)
 
         print(f'''{self.final_summary}''')
+        
+        with open(f'{self.file_name}-final-summary.txt', 'w') as f:
+            f.write(self.final_summary)
         return self.final_summary
 
     def summarize_chunks(self):
