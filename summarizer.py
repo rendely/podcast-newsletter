@@ -12,7 +12,7 @@ SPLIT_SIZE:int = round(CHAR_TO_TOKEN * MAX_TOKENS * SAFETY_FACTOR)
 
 # SUMMARIZE_PROMPT:str = '''You are an AI designed to summarize podcast transcript summaries. When a list of bullet points summarizing a podcast is provided, please organize it into topics, remove any duplicate bullets, but preserve all the information from the summaries to output a clean new final summary.'''
 
-SUMMARIZE_PROMPT:str = '''You are an AI designed to write email newsletters based on podcast transcripts. The user will provide you bullet points from a transcript of a podcast. Re-write this in prose as if by an enthusiastic author writing directly to the reader.'''
+SUMMARIZE_PROMPT:str = '''You are an AI designed to write email newsletters based on podcast transcripts. The user will provide you bullet points from a transcript of a podcast. Re-write this in prose preserving all the detail, in the voice of a concise, enthusiastic, sardonic author writing directly to the reader.'''
 
 BULLET_PROMPT:str = '''You are an AI designed to summarize podcast transcripts with relevant extracts. When raw podcast transcripts are sent to you by the user you will respond with a detailed 10 bullet point summary that preserves details of what was said, try to be more extractive instead of abstractive.'''
 
@@ -51,6 +51,9 @@ class Summarizer:
             )
         
         self.final_summary = completion
+        with open(f'{self.file_name}-final-summary.txt') as f:
+            f.write(self.final_summary)
+
         print(f'''{self.final_summary}''')
         return self.final_summary
 
@@ -69,7 +72,7 @@ class Summarizer:
             )
         
         with open(sum_chunks_file_name, 'w') as f:
-                f.write(json.dumps(self.summary_chunks))
+                f.write(json.dumps(self.summary_chunks, indent=4))
 
     def summarize_chunk(self, chunk: str) -> str:
         completion = self.llm.completion(
