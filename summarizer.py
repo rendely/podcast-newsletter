@@ -36,6 +36,18 @@ class Summarizer:
             self.transcript_chunks.append(section)
             i += round(SPLIT_SIZE*OVERLAP_FACTOR)
 
+    def insights(self) -> str:
+        self.summarize_chunks()
+        print(f'''Extracting insights:\n\n''')
+
+        completion = self.llm.completion(
+            'You are an AI aimed at concisely extracting relevant insights',
+                '\n'.join(self.summary_chunks) \
+                + '\nExtract a list of all the key recommendations for listeners from this podcast transcript above'
+            )
+        print(completion)
+        return completion
+
     def summarize(self) -> str:
         if self.final_summary is not None:
             return self.final_summary
