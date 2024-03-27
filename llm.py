@@ -2,7 +2,7 @@ from openai import OpenAI
 import ollama
 import os
 
-OPENAI_MODEL = 'gpt-3.5-turbo'
+OPENAI_MODEL = 'gpt-4-turbo-preview'
 OLLAMA_MODEL = 'mistral:latest'
 
 client = OpenAI(
