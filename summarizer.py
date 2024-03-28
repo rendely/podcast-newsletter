@@ -12,7 +12,7 @@ SPLIT_SIZE:int = round(CHAR_TO_TOKEN * MAX_TOKENS * SAFETY_FACTOR)
 
 # SUMMARIZE_PROMPT:str = '''You are an AI designed to summarize podcast transcript summaries. When a list of bullet points summarizing a podcast is provided, please organize it into topics, remove any duplicate bullets, but preserve all the information from the summaries to output a clean new final summary.'''
 
-SUMMARIZE_PROMPT:str = '''You are an AI designed to write email newsletters based on podcast transcripts. The user will provide you bullet points from a transcript of a podcast. Re-write this in prose preserving all the detail, in the voice of a concise, enthusiastic, sardonic author writing directly to the reader.'''
+SUMMARIZE_PROMPT:str = '''You are an AI designed to write email newsletters based on podcast transcripts. The user will provide you bullet points from a transcript of a podcast. Re-write this in prose preserving all the detail, in the voice of a concise, enthusiastic, business-savvy, hip, millenial author writing directly to the reader.'''
 
 BULLET_PROMPT:str = '''You are an AI designed to summarize podcast transcripts with relevant extracts. When raw podcast transcripts are sent to you by the user you will respond with a detailed 10 bullet point summary that preserves details of what was said, try to be more extractive instead of abstractive.'''
 
